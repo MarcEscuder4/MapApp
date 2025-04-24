@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import { CityInput } from './components/CityInput';
+import { MapView } from './components/MapView';
+import { Sidebar } from './components/Sidebar';
 
-function App() {
+const App = () => {
+  const [city, setCity] = useState('');
+  const [coordinates, setCoordinates] = useState<[number, number] | null>(null);
+  const [countryCode, setCountryCode] = useState<string>(''); // State for country code
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <CityInput 
+        onCitySelect={setCity} 
+        onCoordinates={setCoordinates}
+        onCountryCode={setCountryCode} // Pass country code setter
+      />
+      <div className="app-body" style={{ display: 'flex' }}>
+        <MapView city={city} coordinates={coordinates} />
+        <Sidebar city={city} countryCode={countryCode} /> {/* Pass countryCode */}
+      </div>
     </div>
   );
-}
+};
 
 export default App;
