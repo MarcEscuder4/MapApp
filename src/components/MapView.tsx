@@ -1,16 +1,15 @@
-// Importaciones necesarias de React y Leaflet
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { LatLngExpression } from 'leaflet';
-import { fetchPOIs } from '../api/overpass'; // Función para obtener puntos de interés desde la API de Overpass
+import { fetchPOIs } from '../api/overpass';
 
-// Interfaz para las props que recibe este componente
+// Tipado de props
 interface Props {
   city: string;
-  coordinates: [number, number] | null; // Coordenadas de la ciudad seleccionada
+  coordinates: [number, number] | null;
 }
 
-// Interfaz que define cómo es un Punto de Interés (POI)
+// Tipado de POIs (Puntos de interés)
 interface POI {
   id: number;
   name: string;
@@ -18,88 +17,74 @@ interface POI {
   lon: number;
 }
 
-// Coordenadas por defecto para inicializar el mapa (Barcelona)
+// Coordenadas por defecto (Barcelona)
 const defaultPosition: LatLngExpression = [41.3874, 2.1686];
-const zoom = 12; // Nivel de zoom del mapa
+const zoom = 12;
 
-/**
- * Componente auxiliar que "vuela" hacia las coordenadas indicadas en el mapa.
- * Esto crea una animación suave cuando el usuario selecciona una nueva ciudad.
- */
+// Componente para animar el cambio de ciudad en el mapa
 const FlyToCity: React.FC<{ coords: [number, number] }> = ({ coords }) => {
-  const map = useMap(); // Hook que nos da acceso al mapa de Leaflet
-
+  const map = useMap();
   useEffect(() => {
-    // Este efecto se ejecuta cuando cambian las coordenadas
-    map.flyTo(coords, zoom); // La función flyTo realiza una animación hasta la ubicación
+    map.flyTo(coords, zoom);
   }, [coords, map]);
-
-  return null; // No renderiza nada, solo actúa como controlador de movimiento del mapa
+  return null;
 };
 
-/**
- * Componente principal del mapa.
- * Se encarga de mostrar mapa, marcadores, y actualizar la vista según la ciudad seleccionada.
- */
+// Componente principal del mapa
 export const MapView: React.FC<Props> = ({ city, coordinates }) => {
-  const position = coordinates || defaultPosition; // Si no hay coordenadas, usa la ubicación por defecto
-  const [pois, setPOIs] = useState<POI[]>([]); // Estado donde se guardan los puntos de interés (como restaurantes o supermercados)
+  const position = coordinates || defaultPosition;
+  const [pois, setPOIs] = useState<POI[]>([]);
 
-  /**
-   * Este useEffect se ejecuta cada vez que cambian las coordenadas.
-   * Llama a una función asincrónica que obtiene los POIs desde la API de Overpass.
-   */
   useEffect(() => {
     const getPOIs = async () => {
-      if (!coordinates) return; // Si no hay coordenadas, no hacemos nada
-
+      if (!coordinates) return;
       try {
         const [lat, lon] = coordinates;
-
-        // Llamamos a la función que obtiene los POIs alrededor de las coordenadas
-        // Actualmente está configurado para buscar 'restaurant' pero se puede cambiar a 'supermarket' u otro tipo
         const data = await fetchPOIs(lat, lon, 'restaurant');
-
-        // Guardamos los datos recibidos en el estado
         setPOIs(data);
       } catch (err) {
-        // En caso de error lo mostramos en consola
         console.error('Error fetching POIs:', err);
       }
     };
 
-    getPOIs(); // Ejecutamos la función cuando cambian las coordenadas
-  }, [coordinates]); // Este efecto depende de las coordenadas
+    getPOIs();
+  }, [coordinates]);
 
   return (
-    <div style={{ height: '600px', width: '70vw', margin: '1rem' }}>
-      {/* Componente principal del mapa de Leaflet */}
+    <div
+      style={{
+        height: '600px',
+        width: '70vw',
+        margin: '1rem auto',
+        borderRadius: '12px',
+        overflow: 'hidden',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+      }}
+    >
       <MapContainer
-        center={position} // Centro del mapa
-        zoom={zoom} // Nivel de zoom inicial
-        scrollWheelZoom={true} // Permite hacer zoom con la rueda del mouse
+        center={position}
+        zoom={zoom}
+        scrollWheelZoom
         style={{ height: '100%', width: '100%' }}
       >
-        {/* Capa base del mapa que muestra el terreno desde OpenStreetMap */}
         <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          // Cambia el estilo del mapa para algo más limpio y moderno
+          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          attribution='&copy; <a href="https://carto.com/">CARTO</a> & contributors'
         />
 
-        {/* Si tenemos coordenadas, añadimos el marcador y hacemos "flyTo" */}
         {coordinates && (
           <>
             <FlyToCity coords={coordinates} />
             <Marker position={coordinates}>
-              <Popup>{city}</Popup> {/* Muestra el nombre de la ciudad */}
+              <Popup><strong>{city}</strong></Popup>
             </Marker>
           </>
         )}
 
-        {/* Iteramos sobre todos los POIs y mostramos un marcador para cada uno */}
         {pois.map((poi) => (
           <Marker key={poi.id} position={[poi.lat, poi.lon]}>
-            <Popup>{poi.name}</Popup> {/* Mostramos el nombre del lugar */}
+            <Popup>{poi.name}</Popup>
           </Marker>
         ))}
       </MapContainer>
