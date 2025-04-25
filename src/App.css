@@ -169,7 +169,7 @@ button:disabled {
 /* Cuando el botón está en foco */
 .search-button:focus {
   outline: none; /* Eliminar el contorno de foco predeterminado */
-  background-color: #FF7043; /* Mantener el color naranja */
+  background-color: #FF5722; /* Mantener el color naranja */
 }
 
 /* Botón deshabilitado */
@@ -178,28 +178,7 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* Estilo para los botones de los POIs */
-.poi-button {
-  padding: 0.6rem 1rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  background-color: #FF7043; /* Naranja elegante */
-  color: #FFFFFF;
-  transition: background-color 0.3s;
-}
 
-/* Cuando el ratón pasa sobre el botón */
-.poi-button:hover {
-  background-color: #FF5722; /* Naranja más oscuro */
-}
-
-/* Cuando el botón está en foco */
-.poi-button:focus {
-  outline: none; /* Eliminar el contorno de foco predeterminado */
-  background-color: #FF7043; /* Mantener el color naranja */
-}
 
 /* Botón deshabilitado */
 .poi-button:disabled {
