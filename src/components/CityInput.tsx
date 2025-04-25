@@ -48,9 +48,9 @@ export const CityInput: React.FC<Props> = ({
         alignItems: 'center',
         gap: '0.5rem',
         padding: '1rem',
-        backgroundColor: '#f9f9f9',
+        backgroundColor: '#2c2c2c',
         borderRadius: '10px',
-        boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
+        boxShadow: '0 2px 6px rgba(136, 136, 136, 0.25)',
         marginBottom: '1rem',
         maxWidth: '500px',
         margin: '1rem auto',
@@ -71,18 +71,7 @@ export const CityInput: React.FC<Props> = ({
       />
       <button
         onClick={handleSearch}
-        style={{
-          padding: '0.6rem 1rem',
-          backgroundColor: '#007bff',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '8px',
-          fontSize: '1rem',
-          cursor: 'pointer',
-          transition: 'background-color 0.3s',
-        }}
-        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#0056b3')}
-        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#007bff')}
+        className="search-button"
       >
         Buscar
       </button>

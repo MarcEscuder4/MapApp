@@ -1,5 +1,5 @@
-// Se obtiene la clave de la API desde las variables de entorno
-const API_KEY = process.env.REACT_APP_CALENDARIFIC_API_KEY; // La clave de la API de Calendarific
+// Se obtiene la clave de la API de Calendarific desde las variables de entorno
+const API_KEY = process.env.REACT_APP_CALENDARIFIC_API_KEY;
 
 // Función para obtener los días festivos de un país y año determinado
 export const fetchHolidays = async (country: string, year: number) => {

@@ -11,7 +11,7 @@ interface Holiday {
   date: { iso: string }; // Fecha del festivo en formato ISO
 }
 
-const HOLIDAYS_PER_PAGE = 8; // Número de festivos por página
+const HOLIDAYS_PER_PAGE = 7; // Número de festivos por página
 
 // Componente Sidebar que muestra los festivos de la ciudad seleccionada
 export const Sidebar: React.FC<Props> = ({ city, countryCode }) => {
@@ -52,7 +52,7 @@ export const Sidebar: React.FC<Props> = ({ city, countryCode }) => {
   const totalPages = Math.ceil(holidays.length / HOLIDAYS_PER_PAGE);
 
   return (
-    <div style={{ padding: '1rem', width: '30vw' }}>
+    <div className="sidebar">
       {/* Muestra el nombre de la ciudad seleccionada */}
       <h4>Ciudad seleccionada:</h4>
       <h2>{city || 'Ninguna'}</h2>
@@ -73,12 +73,11 @@ export const Sidebar: React.FC<Props> = ({ city, countryCode }) => {
           </ul>
           {/* Paginación solo si hay más de una página de festivos */}
           {totalPages > 1 && (
-            <div style={{ marginTop: '1rem' }}>
+            <div className="pagination">
               {/* Botón de "Anterior" */}
               <button
                 disabled={currentPage === 0} // Deshabilita si estamos en la primera página
                 onClick={() => setCurrentPage((prev) => prev - 1)} // Resta 1 al número de la página
-                style={{ marginRight: '0.5rem' }}
               >
                 Anterior
               </button>
@@ -88,7 +87,6 @@ export const Sidebar: React.FC<Props> = ({ city, countryCode }) => {
               <button
                 disabled={currentPage >= totalPages - 1} // Deshabilita si estamos en la última página
                 onClick={() => setCurrentPage((prev) => prev + 1)} // Suma 1 al número de la página
-                style={{ marginLeft: '0.5rem' }}
               >
                 Siguiente
               </button>

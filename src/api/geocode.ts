@@ -1,5 +1,5 @@
-// Esta función se encarga de obtener las coordenadas (latitud y longitud)
-// y el código de país de una ciudad utilizando la API de OpenCage.
+/* Esta función se encarga de obtener las coordenadas (latitud y longitud)
+   y el código de país de una ciudad utilizando la API de OpenCage. */
 export const geocodeCity = async (city: string) => {
   // Se accede a la API key desde la variable de entorno
   const apiKey = process.env.REACT_APP_OPENCAGE_API_KEY;
@@ -14,8 +14,8 @@ export const geocodeCity = async (city: string) => {
 
     // Si se obtienen resultados, extraemos latitud, longitud y código de país
     if (data.results.length > 0) {
-      const { lat, lng } = data.results[0].geometry; // Coordenadas geográficas
-      const countryCode = data.results[0].components['ISO_3166-1_alpha-2']; // Código de país (ej: ES, US)
+      const { lat, lng } = data.results[0].geometry;
+      const countryCode = data.results[0].components['ISO_3166-1_alpha-2']; // Código de país ( ES, US...)
 
       // Se retorna un objeto con coordenadas y código de país
       return {

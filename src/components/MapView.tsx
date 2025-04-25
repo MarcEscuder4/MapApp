@@ -40,7 +40,7 @@ export const MapView: React.FC<Props> = ({ city, coordinates }) => {
       if (!coordinates) return;
       try {
         const [lat, lon] = coordinates;
-        const data = await fetchPOIs(lat, lon, 'restaurant');
+        const data = await fetchPOIs(lat, lon, 'nightclub'); // Si se quiere mostrar otro tipo de negocios hay que modificar 'nightclub' (ej. "Shisha", "Supermarket"...)
         setPOIs(data);
       } catch (err) {
         console.error('Error fetching POIs:', err);
@@ -58,7 +58,7 @@ export const MapView: React.FC<Props> = ({ city, coordinates }) => {
         margin: '1rem auto',
         borderRadius: '12px',
         overflow: 'hidden',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+        boxShadow: '0 2px 6px rgba(136, 136, 136, 0.25)',
       }}
     >
       <MapContainer
@@ -68,7 +68,7 @@ export const MapView: React.FC<Props> = ({ city, coordinates }) => {
         style={{ height: '100%', width: '100%' }}
       >
         <TileLayer
-          // Cambia el estilo del mapa para algo más limpio y moderno
+        // Estilo del mapa
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           attribution='&copy; <a href="https://carto.com/">CARTO</a> & contributors'
         />
