@@ -1,16 +1,16 @@
 import axios from 'axios';
 
-// Función para obtener Puntos de Interés (POIs) de un tipo específico (restaurante o supermercado)
-// Las coordenadas (lat, lon) son el punto central para la búsqueda, y el tipo es 'restaurant' o 'supermarket'
+// Función para obtener Puntos de Interés (POIs) de un tipo específico (restaurante, supermercado, discoteca...)
+// Las coordenadas (lat, lon) son el punto central para la búsqueda, y el tipo es 'nightclub'
 export const fetchPOIs = async (lat: number, lon: number, type: 'nightclub') => {
   // Consulta en lenguaje Overpass para obtener nodos, caminos y relaciones de tipo "restaurant" o "supermarket"
   // Los resultados se obtendrán dentro de un radio de 2 km alrededor de las coordenadas proporcionadas
   const query = `
     [out:json];  // Indica que la salida será en formato JSON
     (
-      node["amenity"="${type}"](around:3000,${lat},${lon}); // Buscar nodos de tipo "restaurant" dentro de 3 km
+      node["amenity"="${type}"](around:3000,${lat},${lon}); // Buscar nodos de tipo "nightclub" dentro de 3 km
       way["amenity"="${type}"](around:3000,${lat},${lon});  // Buscar caminos (way) de tipo "discoteca" (nightclub) dentro de 3 km
-      relation["amenity"="${type}"](around:3000,${lat},${lon});  // Buscar relaciones (relation) de tipo "restaurant" dentro de 3 km
+      relation["amenity"="${type}"](around:3000,${lat},${lon});  // Buscar relaciones (relation) de tipo "nightclub" dentro de 3 km
     );
     out center;  // Obtener los centros de los elementos encontrados
   `;
